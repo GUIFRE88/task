@@ -1,0 +1,75 @@
+version: '3'
+services:
+  auth_service:
+    build: ./auth_service
+    container_name: auth_service
+    ports:
+      - "3001:3000"
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=auth_service_development
+    depends_on:
+      - db
+
+  notification_service:
+    build: ./notification_service
+    container_name: notification_service
+    ports:
+      - "3002:3000"
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=notification_service_development
+    depends_on:
+      - db
+
+  scraping_service:
+    build: ./scraping_service
+    container_name: scraping_service
+    ports:
+      - "3003:3000"
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=scraping_service_development
+    depends_on:
+      - db
+
+  task_management:
+    build: ./task_management
+    container_name: task_management
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=task_management_development
+      - AUTH_SERVICE_URL=http://auth_service:3001
+      - NOTIFICATION_SERVICE_URL=http://notification_service:3002
+      - SCRAPING_SERVICE_URL=http://scraping_service:3003
+    depends_on:
+      - db
+      - auth_service
+      - notification_service
+      - scraping_service
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: development
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
