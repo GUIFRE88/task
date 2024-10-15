@@ -3,6 +3,8 @@ services:
   auth_service:
     build: ./auth_service
     container_name: auth_service
+    volumes:
+      - ./auth_service:/app
     ports:
       - "3001:3000"
     environment:
@@ -16,6 +18,8 @@ services:
   notification_service:
     build: ./notification_service
     container_name: notification_service
+    volumes:
+      - ./notification_service:/app
     ports:
       - "3002:3000"
     environment:
@@ -29,6 +33,8 @@ services:
   scraping_service:
     build: ./scraping_service
     container_name: scraping_service
+    volumes:
+      - ./scraping_service:/app
     ports:
       - "3003:3000"
     environment:
@@ -42,6 +48,8 @@ services:
   task_management:
     build: ./task_management
     container_name: task_management
+    volumes:
+      - ./task_management:/app
     ports:
       - "3000:3000"
     environment:
