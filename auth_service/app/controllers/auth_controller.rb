@@ -24,10 +24,30 @@ class AuthController < ApplicationController
 
   # GET /validate
   def validate
-    render json: { message: 'Token is valid' }, status: :ok
+    token = request.headers['Authorization']&.split(' ')&.last
+  
+    if token
+      begin
+        decoded_token = decode_token(token)
+        user_id = decoded_token[0]['user_id']
+        if User.exists?(user_id)
+          render json: { message: 'Token is valid' }, status: :ok
+        else
+          render json: { error: 'Invalid token' }, status: :unauthorized
+        end
+      rescue JWT::DecodeError
+        render json: { error: 'Invalid token' }, status: :unauthorized
+      end
+    else
+      render json: { error: 'Token not provided' }, status: :bad_request
+    end
   end
 
   private
+
+  def decode_token(token)
+    JWT.decode(token, Rails.application.secrets.secret_key_base, true, { algorithm: 'HS256' })
+  end
 
   def user_params
     params.permit(:email, :password, :password_confirmation)
