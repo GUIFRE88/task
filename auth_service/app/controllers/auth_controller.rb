@@ -1,42 +1,40 @@
+# frozen_string_literal: true
 class AuthController < ApplicationController
   before_action :authorize_request, except: [:login, :signup]
 
   # POST /signup
   def signup
-    user = User.new(user_params)
-    if user.save
-      render json: { message: 'User created successfully' }, status: :created
+    result = auth_user_service.signup(user_params)
+
+    if result[:success]
+      render json: { message: result[:message] }, status: :created
     else
-      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: result[:errors] }, status: :unprocessable_entity
     end
   end
 
   # POST /login
   def login
-    user = User.find_by(email: params[:email])
-    if user&.authenticate(params[:password])
-      token = jwt_encode(user_id: user.id)
-      render json: { token: token }, status: :ok
+    result = auth_user_service.login(params[:email], params[:password])
+
+    if result[:success]
+      render json: { token: result[:token] }, status: :ok
     else
-      render json: { error: 'Invalid email or password' }, status: :unauthorized
+      render json: { error: result[:error] }, status: :unauthorized
     end
   end
 
   # GET /validate
   def validate
     token = request.headers['Authorization']&.split(' ')&.last
-  
+
     if token
-      begin
-        decoded_token = decode_token(token)
-        user_id = decoded_token[0]['user_id']
-        if User.exists?(user_id)
-          render json: { message: 'Token is valid' }, status: :ok
-        else
-          render json: { error: 'Invalid token' }, status: :unauthorized
-        end
-      rescue JWT::DecodeError
-        render json: { error: 'Invalid token' }, status: :unauthorized
+      result = auth_user_service.validate_token(token)
+
+      if result[:valid]
+        render json: { message: result[:message] }, status: :ok
+      else
+        render json: { error: result[:error] }, status: :unauthorized
       end
     else
       render json: { error: 'Token not provided' }, status: :bad_request
@@ -45,14 +43,15 @@ class AuthController < ApplicationController
 
   private
 
-  def decode_token(token)
-    JWT.decode(token, Rails.application.secrets.secret_key_base, true, { algorithm: 'HS256' })
-  end
-
   def user_params
     params.permit(:email, :password, :password_confirmation)
   end
+
+  def auth_user_service
+    @auth_user_service ||= AuthUserService.new
+  end
 end
+
 
 # Como autenticar rotas no sistema principal. 
 #class ApplicationController < ActionController::API
