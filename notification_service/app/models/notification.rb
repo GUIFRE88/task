@@ -1,8 +1,4 @@
 class Notification < ApplicationRecord
-  #TODO
-  #belongs_to :task
-  #belongs_to :user
-
   validates :task_id, :user_id, :action, presence: true
   validates :action, inclusion: { in: %w[create update], message: "%{value} is not a valid action" }
 

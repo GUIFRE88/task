@@ -26,7 +26,6 @@ class AuthController < ApplicationController
 
   # GET /validate
   def validate
-    puts 'CAIUUUUUUUUUUUUUUUUUUUUU'
     token = request.headers['Authorization']&.split(' ')&.last
 
     if token
@@ -52,17 +51,3 @@ class AuthController < ApplicationController
     @auth_user_service ||= AuthUserService.new
   end
 end
-
-
-# Como autenticar rotas no sistema principal. 
-#class ApplicationController < ActionController::API
-#  before_action :authenticate_user
-#
-#  private
-
-#  def authenticate_user
-#    token = request.headers['Authorization']&.split(' ')&.last
-#    response = HTTParty.get("#{AUTH_SERVICE_URL}/validate", headers: { 'Authorization' => "Bearer #{token}" })
-#    render json: { errors: 'Unauthorized' }, status: :unauthorized unless response.success?
-#  end
-#end
