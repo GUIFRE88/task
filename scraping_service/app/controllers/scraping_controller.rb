@@ -1,5 +1,6 @@
 class ScrapingController < ApplicationController
   def start_scraping
+    token = request.headers['Authorization']&.split(' ')&.last
     task_id = params[:task_id]
     url = params[:url]
 
@@ -9,13 +10,14 @@ class ScrapingController < ApplicationController
     end
 
     begin
-      scraped_data = scrap_service.scrape(url)
+      ScrapingWorker.perform_async(url, task_id, token)
+      #scraped_data = scrap_service.scrape(url)
     rescue StandardError => e
       render json: { error: "Scraping failed: #{e.message}" }, status: :internal_server_error
       return
     end
 
-    render json: { message: "Scraping task completed", task_id: task_id, data: scraped_data }, status: :ok
+    render json: { message: "Scraping task completed", task_id: task_id }, status: :ok
   end
 
   private

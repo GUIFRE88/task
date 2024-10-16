@@ -51,8 +51,10 @@ services:
       - AUTH_SERVICE_URL=http://auth_service:3000
       - NOTIFICATION_SERVICE_URL=http://notification_service:3000
       - SCRAPING_SERVICE_URL=http://scraping_service:3000
+      - REDIS_URL=redis://redis:6379/0
     depends_on:
       - db
+      - redis
 
   task_management:
     build: ./task_management
@@ -74,6 +76,28 @@ services:
       - auth_service
       - notification_service
       - scraping_service
+
+  redis:
+    image: redis:6.2
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  sidekiq:
+    build: ./scraping_service
+    command: bundle exec sidekiq
+    volumes:
+      - ./scraping_service:/app
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_HOST=db
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=scraping_service_development
+    depends_on:
+      - redis
+      - scraping_service
+      - db
 
   db:
     image: mysql:5.7

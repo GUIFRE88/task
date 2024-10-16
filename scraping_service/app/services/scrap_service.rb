@@ -25,7 +25,7 @@ class ScrapService
 
       brand = parsed_page.at_css('#VehicleBasicInformationTitle')&.text&.strip || "Marca não encontrada"
       model = parsed_page.at_css('#VehicleBasicInformationDescription')&.text&.strip || "Modelo não encontrado"
-      price = parsed_page.at_css('#vehicleSendProposalPrice')&.text&.strip || "Preço não encontrado"
+      price = parsed_page.at_css('#vehicleSendProposalPrice')&.text&.strip || "0.00"
 
       { brand: brand, model: model, price: price }
     end
