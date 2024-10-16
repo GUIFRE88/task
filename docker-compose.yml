@@ -55,6 +55,8 @@ services:
     depends_on:
       - db
       - redis
+      - auth_service
+      - notification_service
 
   task_management:
     build: ./task_management

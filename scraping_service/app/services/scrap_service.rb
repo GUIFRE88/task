@@ -30,4 +30,20 @@ class ScrapService
       { brand: brand, model: model, price: price }
     end
   end
+
+  def send_notification(token,task_id)
+    response = HTTParty.post(
+      "http://notification_service:3000/notifications",
+      headers: {
+        'Authorization' => "Bearer #{token}",
+        'Content-Type' => 'application/json'
+      },
+      body: {
+        task_id: task_id,
+        user_id: 1,
+        action: "create",
+        details: "Scraping was completed successfully."
+      }.to_json
+    )
+  end
 end
