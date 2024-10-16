@@ -13,6 +13,10 @@ gem 'puma', '~> 5.0'
 gem 'httparty'
 gem 'nokogiri'
 
+gem 'selenium-webdriver'
+gem 'webdrivers'
+gem 'puppeteer-ruby'
+
 gem 'mysql2', '>= 0.5.3'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.7'
