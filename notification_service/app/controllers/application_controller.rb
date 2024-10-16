@@ -5,7 +5,6 @@ class ApplicationController < ActionController::API
 
   private
   def authenticate_user
-    puts 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
     token = request.headers['Authorization']&.split(' ')&.last
     response = HTTParty.get("#{ENV['AUTH_SERVICE_URL']}/validate", headers: { 'Authorization' => "Bearer #{token}" })
 
