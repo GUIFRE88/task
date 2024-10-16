@@ -12,6 +12,9 @@ services:
       - DATABASE_USERNAME=root
       - DATABASE_PASSWORD=password
       - DATABASE_NAME=auth_service_development
+      - AUTH_SERVICE_URL=http://auth_service:3000
+      - NOTIFICATION_SERVICE_URL=http://notification_service:3000
+      - SCRAPING_SERVICE_URL=http://scraping_service:3000
     depends_on:
       - db
 
@@ -27,6 +30,9 @@ services:
       - DATABASE_USERNAME=root
       - DATABASE_PASSWORD=password
       - DATABASE_NAME=notification_service_development
+      - AUTH_SERVICE_URL=http://auth_service:3000
+      - NOTIFICATION_SERVICE_URL=http://notification_service:3000
+      - SCRAPING_SERVICE_URL=http://scraping_service:3000
     depends_on:
       - db
 
@@ -42,6 +48,9 @@ services:
       - DATABASE_USERNAME=root
       - DATABASE_PASSWORD=password
       - DATABASE_NAME=scraping_service_development
+      - AUTH_SERVICE_URL=http://auth_service:3000
+      - NOTIFICATION_SERVICE_URL=http://notification_service:3000
+      - SCRAPING_SERVICE_URL=http://scraping_service:3000
     depends_on:
       - db
 
@@ -57,9 +66,9 @@ services:
       - DATABASE_USERNAME=root
       - DATABASE_PASSWORD=password
       - DATABASE_NAME=task_management_development
-      - AUTH_SERVICE_URL=http://auth_service:3001
-      - NOTIFICATION_SERVICE_URL=http://notification_service:3002
-      - SCRAPING_SERVICE_URL=http://scraping_service:3003
+      - AUTH_SERVICE_URL=http://auth_service:3000
+      - NOTIFICATION_SERVICE_URL=http://notification_service:3000
+      - SCRAPING_SERVICE_URL=http://scraping_service:3000
     depends_on:
       - db
       - auth_service

@@ -11,6 +11,10 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  config.hosts << "notification_service"
+  config.hosts << "scraping_service"
+  config.hosts << "auth_service" 
+
   # Show full error reports.
   config.consider_all_requests_local = true
 

@@ -26,6 +26,7 @@ class AuthController < ApplicationController
 
   # GET /validate
   def validate
+    puts 'CAIUUUUUUUUUUUUUUUUUUUUU'
     token = request.headers['Authorization']&.split(' ')&.last
 
     if token
