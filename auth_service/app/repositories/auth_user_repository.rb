@@ -5,7 +5,7 @@ class AuthUserRepository
   def signup(user_params)
     user = User.new(user_params)
     if user.save
-      { success: true, message: 'User created successfully' }
+      { success: true, message: 'User created successfully', user_id: user.id }
     else
       { success: false, errors: user.errors.full_messages }
     end

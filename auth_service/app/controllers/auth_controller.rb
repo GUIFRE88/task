@@ -18,7 +18,7 @@ class AuthController < ApplicationController
     result = auth_user_service.login(params[:email], params[:password])
 
     if result[:success]
-      render json: { token: result[:token] }, status: :ok
+      render json: { token: result[:token], user_id: result[:user_id] }, status: :ok
     else
       render json: { error: result[:error] }, status: :unauthorized
     end

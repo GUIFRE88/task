@@ -100,6 +100,21 @@ const TaskList: React.FC = () => {
     onClose(); 
   };
 
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
+
+    toast({
+      title: 'Log out successful!',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+    setTimeout(() => {
+      window.location.href = '/login';
+    }, 3000);
+  }
+
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center" bg="gray.100">
       <Box width="80%" p="8" bg="white" borderRadius="md" boxShadow="lg">
@@ -135,14 +150,25 @@ const TaskList: React.FC = () => {
             No tasks available.
           </Text>
         )}
-        <Button
-          mt="6"
-          colorScheme="blue"
-          width="200px"
-          onClick={onOpen} 
-        >
-          Include Tasks
-        </Button>
+        <Flex justifyContent="space-between" mt="6">
+          <Button
+            mt="6"
+            colorScheme="blue"
+            width="200px"
+            onClick={onOpen} 
+          >
+            Include Tasks
+          </Button>
+          <Button
+            mt="6"
+            colorScheme="red"
+            variant={"outline"}
+            width="200px"
+            onClick={handleLogOut}
+          >
+            Log out
+          </Button>
+        </Flex>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>

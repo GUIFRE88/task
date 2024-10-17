@@ -6,6 +6,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [token, setToken] = useState<string | null>(null); 
+  const [userId, setUserId] = useState<string | null>(null); 
   const toast = useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -13,6 +14,7 @@ const Login: React.FC = () => {
     try {
       const response = await axios.post('http://localhost:3001/login', { email, password });
       setToken(response.data.token);
+      setUserId(response.data.user_id)
       toast({
         title: 'Login successful!',
         status: 'success',
@@ -39,7 +41,10 @@ const Login: React.FC = () => {
     if (token) {
       localStorage.setItem('token', token);
     }
-  }, [token]);
+    if (userId) {
+      localStorage.setItem('user_id', userId);
+    }
+  }, [token, userId]);
 
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center">

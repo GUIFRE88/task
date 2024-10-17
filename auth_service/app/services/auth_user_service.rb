@@ -9,7 +9,7 @@ class AuthUserService
     user = auth_user_repository.find_by_email(email)
     if user&.authenticate(password)
       token = jwt_encode(user_id: user.id)
-      { success: true, token: token }
+      { success: true, token: token, user_id: user.id}
     else
       { success: false, error: 'Invalid email or password' }
     end
