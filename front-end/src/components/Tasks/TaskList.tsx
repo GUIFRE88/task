@@ -108,12 +108,12 @@ const TaskList: React.FC = () => {
     toast({
       title: 'Log out successful!',
       status: 'success',
-      duration: 2000,
+      duration: 1000,
       isClosable: true,
     });
     setTimeout(() => {
       window.location.href = '/login';
-    }, 2000);
+    }, 1000);
   };
 
   const handleDelete = async (taskId: number) => {

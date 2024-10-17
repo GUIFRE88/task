@@ -5,15 +5,23 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import TaskList from './components/Tasks/TaskList';
 import { ChakraProvider } from '@chakra-ui/react'
+import ProtectedRoute from './ProtectedRoute';
 
 const App: React.FC = () => {
   return (
-    <ChakraProvider>
+<ChakraProvider>
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/tasks" element={<TaskList />} />
+          <Route
+            path="/tasks"
+            element={
+              <ProtectedRoute>
+                <TaskList />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/" element={<Login />} />
         </Routes>
       </Router>
