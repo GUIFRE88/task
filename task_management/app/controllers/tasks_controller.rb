@@ -17,6 +17,22 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
+
+      token = request.headers['Authorization']&.split(' ')&.last
+      response = HTTParty.post(
+        "http://notification_service:3000/notifications",
+        headers: {
+          'Authorization' => "Bearer #{token}",
+          'Content-Type' => 'application/json'
+        },
+        body: {
+          task_id: @task.id,
+          user_id: @task.user_id,
+          action: "create",
+          details: "Task was created successfully."
+        }.to_json
+      )
+
       render json: @task, status: :created
     else
       render json: @task.errors, status: :unprocessable_entity
@@ -47,6 +63,6 @@ class TasksController < ApplicationController
 
   # Strong parameters
   def task_params
-    params.require(:task).permit(:url, :status)
+    params.require(:task).permit(:url, :status, :user_id, :task_type)
   end
 end

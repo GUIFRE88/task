@@ -30,6 +30,7 @@ interface Task {
   id: number;
   url: string;
   status: '0' | '1' | '2' | '3';
+  task_type: '0' | '1';
   created_at: string;
 }
 
@@ -45,6 +46,10 @@ const TaskList: React.FC = () => {
     '1': 'In Progress',
     '2': 'Completed',
     '3': 'Failed',
+  };
+  const typeLabels = {
+    '0': 'Scraping',
+    '1': 'Others'
   };
 
   const token = localStorage.getItem('token');
@@ -160,6 +165,7 @@ const TaskList: React.FC = () => {
                 <Th>ID</Th>
                 <Th>URL</Th>
                 <Th>Status</Th>
+                <Th>Type</Th>
                 <Th>Created At</Th>
                 <Th></Th>
               </Tr>
@@ -170,6 +176,7 @@ const TaskList: React.FC = () => {
                   <Td>{task.id}</Td>
                   <Td>{task.url}</Td>
                   <Td>{statusLabels[task.status]}</Td>
+                  <Td>{typeLabels[task.task_type]}</Td>
                   <Td>{format(new Date(task.created_at), 'dd/MM/yyyy HH:mm')}</Td>
                   <Td>
                     <Button colorScheme='teal' variant='solid' size='sm' onClick={() => handleEditTask(task)} >
