@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Input, Button, FormLabel, FormControl } from '@chakra-ui/react';
+import { Input, Button, FormLabel, FormControl, useToast } from '@chakra-ui/react';
+import { useAuth } from '../context/AuthContext';
 
 interface Task {
   id?: number;
@@ -16,6 +17,8 @@ interface TaskFormProps {
 const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, task }) => {
   const [url, setUrl] = useState<string>('');
   const [status, setStatus] = useState<string>('0');
+  const { token } = useAuth();
+  const toast = useToast();
 
   useEffect(() => {
     if (task) {
@@ -27,26 +30,45 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, task }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
       if (task) {
+
         await axios.put(`http://localhost:3000/tasks/${task.id}`, { url, status }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+
+        toast({
+          title: 'Task updated successfully.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
       } else {
+
         await axios.post('http://localhost:3000/tasks', { url, status }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+        });
+
+        toast({
+          title: 'Task created successfully.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
         });
       }
       onTaskAdded();
       setUrl('');
       setStatus('0');
     } catch (error) {
-      console.error(error);
-      alert('Error creating or updating task.');
+      toast({
+        title: 'Error creating or updating task.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
