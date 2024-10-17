@@ -20,6 +20,7 @@ gem 'puppeteer-ruby'
 gem 'sidekiq'
 gem 'redis'
 gem 'bigdecimal'
+gem 'rack-cors', require: 'rack/cors'
 
 gem 'mysql2', '>= 0.5.3'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
