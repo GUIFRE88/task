@@ -40,6 +40,7 @@ const TaskList: React.FC = () => {
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { token, clearAuth} = useAuth();
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const statusLabels = {
     '0': 'Pending',
     '1': 'In Progress',
@@ -107,6 +108,34 @@ const TaskList: React.FC = () => {
     }, 2000);
   }
 
+  const handleDelete = async (taskId:number) => {
+    setLoadingDelete(true); 
+
+    try {
+      const response = await axios.delete(`http://localhost:3000/tasks/${taskId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+        toast({
+            title: 'Activity deleted successfully!',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+    } catch (error) {
+        toast({
+            title: 'Error deleting activity.',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+    } finally {
+      setLoadingDelete(false);
+    }
+};
+
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center" bg="gray.100">
       <Box width="80%" p="8" bg="white" borderRadius="md" boxShadow="lg">
@@ -138,7 +167,7 @@ const TaskList: React.FC = () => {
                     <Button colorScheme='teal' variant='solid' size='sm'>
                       Update
                     </Button>
-                    <Button marginLeft='10px' colorScheme='red' variant='solid' size='sm'>
+                    <Button marginLeft='10px' colorScheme='red' variant='solid' size='sm' onClick={() => handleDelete(task.id)} isLoading={loadingDelete}>
                       Delete
                     </Button>
                   </Td>
