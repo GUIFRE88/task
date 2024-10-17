@@ -226,9 +226,6 @@ const TaskList: React.FC = () => {
             <ModalBody>
               <TaskForm onTaskAdded={handleTaskAdded} task={editingTask} />
             </ModalBody>
-            <ModalFooter>
-              <Button onClick={onClose}>Close</Button>
-            </ModalFooter>
           </ModalContent>
         </Modal>
       </Box>
