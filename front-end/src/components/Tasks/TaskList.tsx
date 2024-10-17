@@ -25,6 +25,7 @@ import {
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import TaskForm from './TaskForm';
+import { useAuth } from '../context/AuthContext';
 
 interface Task {
   id: number;
@@ -38,7 +39,7 @@ const TaskList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
-
+  const { token, clearAuth} = useAuth();
   const statusLabels = {
     '0': 'Pending',
     '1': 'In Progress',
@@ -48,7 +49,6 @@ const TaskList: React.FC = () => {
 
   const fetchTasks = async () => {
     setLoading(true);
-    const token = localStorage.getItem('token');
 
     if (!token) {
         toast({
@@ -94,8 +94,7 @@ const TaskList: React.FC = () => {
   };
 
   const handleLogOut = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user_id');
+    clearAuth()
 
     toast({
       title: 'Log out successful!',
