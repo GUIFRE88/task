@@ -125,6 +125,7 @@ const TaskList: React.FC = () => {
                 <Th>URL</Th>
                 <Th>Status</Th>
                 <Th>Created At</Th>
+                <Th></Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -134,6 +135,14 @@ const TaskList: React.FC = () => {
                   <Td>{task.url}</Td>
                   <Td>{statusLabels[task.status]}</Td>
                   <Td>{format(new Date(task.created_at), 'dd/MM/yyyy HH:mm')}</Td>
+                  <Td>
+                    <Button colorScheme='teal' variant='solid' size='sm'>
+                      Update
+                    </Button>
+                    <Button marginLeft='10px' colorScheme='red' variant='solid' size='sm'>
+                      Delete
+                    </Button>
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
