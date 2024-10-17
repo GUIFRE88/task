@@ -41,7 +41,7 @@ const TaskList: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { token, clearAuth } = useAuth();
   const [loadingDelete, setLoadingDelete] = useState(false);
-  const [editingTask, setEditingTask] = useState<Task | null>(null); // Adiciona estado para a tarefa em edição
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
   const statusLabels = {
     '0': 'Pending',
     '1': 'In Progress',
@@ -191,7 +191,10 @@ const TaskList: React.FC = () => {
             mt="6"
             colorScheme="blue"
             width="200px"
-            onClick={onOpen} 
+            onClick={() => {
+              setEditingTask(null);
+              onOpen();
+            }}
           >
             Include Tasks
           </Button>
