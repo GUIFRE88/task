@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Input, Button, FormLabel, FormControl, useToast } from '@chakra-ui/react';
-import { useAuth } from '../context/AuthContext';
 
 interface Task {
   id?: number;
@@ -17,7 +16,7 @@ interface TaskFormProps {
 const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, task }) => {
   const [url, setUrl] = useState<string>('');
   const [status, setStatus] = useState<string>('0');
-  const { token } = useAuth();
+  const token  = localStorage.getItem('token');
   const toast = useToast();
 
   useEffect(() => {

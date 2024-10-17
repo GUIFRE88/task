@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Button, FormControl, FormLabel, Input, Heading, VStack, useToast, Flex } from '@chakra-ui/react';
-import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const toast = useToast();
-  const { token, setToken, setUserId } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3001/login', { email, password });
-      setToken(response.data.token)
-      setUserId(response.data.user_id)
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user_id', response.data.user_id);
       toast({
         title: 'Login successful!',
         status: 'success',

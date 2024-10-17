@@ -25,7 +25,6 @@ import {
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import TaskForm from './TaskForm';
-import { useAuth } from '../context/AuthContext';
 
 interface Task {
   id: number;
@@ -39,7 +38,6 @@ const TaskList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { token, clearAuth } = useAuth();
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const statusLabels = {
@@ -48,6 +46,9 @@ const TaskList: React.FC = () => {
     '2': 'Completed',
     '3': 'Failed',
   };
+
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('user_id');
 
   const fetchTasks = async () => {
     setLoading(true);
@@ -101,7 +102,8 @@ const TaskList: React.FC = () => {
   };
 
   const handleLogOut = () => {
-    clearAuth();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
 
     toast({
       title: 'Log out successful!',
@@ -127,14 +129,14 @@ const TaskList: React.FC = () => {
       toast({
         title: 'Task deleted successfully!',
         status: 'success',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       });
     } catch (error) {
       toast({
         title: 'Error deleting task.',
         status: 'error',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       });
     } finally {
