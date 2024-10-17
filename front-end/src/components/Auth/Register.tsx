@@ -29,18 +29,18 @@ const Register: React.FC = () => {
       toast({
         title: 'User registered successfully!',
         status: 'success',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       });
       setTimeout(() => {
         window.location.href = '/login';
-      }, 3000);
+      }, 2000);
     } catch (error) {
       console.error(error);
       toast({
         title: 'Error registering user.',
         status: 'error',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       });
     }

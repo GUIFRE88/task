@@ -54,42 +54,35 @@ const TaskList: React.FC = () => {
         toast({
         title: 'You must be logged in to access this feature.',
         status: 'warning',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
         });
         setLoading(false);
         setTimeout(() => {
           window.location.href = '/';
-        }, 3000);
+        }, 2000);
         return; 
     }
 
     try {
         const response = await axios.get('http://localhost:3000/tasks', {
-        headers: {
+          headers: {
             Authorization: `Bearer ${token}`,
-        },
+          },
         });
         setTasks(response.data);
-        toast({
-        title: 'Tasks fetched successfully.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        });
     } catch (error) {
         console.error(error);
         toast({
-        title: 'Error fetching tasks.',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
+          title: 'Error fetching tasks.',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
         });
     } finally {
         setLoading(false);
     }
   };
-
 
   useEffect(() => {
     fetchTasks();
@@ -107,12 +100,12 @@ const TaskList: React.FC = () => {
     toast({
       title: 'Log out successful!',
       status: 'success',
-      duration: 3000,
+      duration: 2000,
       isClosable: true,
     });
     setTimeout(() => {
       window.location.href = '/login';
-    }, 3000);
+    }, 2000);
   }
 
   return (
