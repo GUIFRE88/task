@@ -9,12 +9,13 @@ interface TaskFormProps {
 
 const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded }) => {
   const [url, setUrl] = useState<string>('');
+  const [status, setStatus] = useState<string>('0');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:3000/tasks', { url }, {
+      await axios.post('http://localhost:3000/tasks', { url, status }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
