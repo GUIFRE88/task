@@ -17,7 +17,7 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
-      if @task.task_type == '0'
+      if @task.task_type == '0' && params[:start_scraping].present?
         token = request.headers['Authorization']&.split(' ')&.last
         response = HTTParty.post(
           "http://scraping_service:3000/start_scraping",
@@ -43,8 +43,8 @@ class TasksController < ApplicationController
   def update
     if @task.update(task_params)
       puts 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'
-      puts @task.task_type == '0'
-      if @task.task_type == '0'
+      puts params[:start_scraping].present?
+      if @task.task_type == '0' && params[:start_scraping].present?
         token = request.headers['Authorization']&.split(' ')&.last
         response = HTTParty.post(
           "http://scraping_service:3000/start_scraping",

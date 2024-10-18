@@ -44,7 +44,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, task }) => {
             url, 
             status, 
             user_id: userId,
-            task_type: taskType
+            task_type: taskType,
+            start_scraping: true
           }, 
           {
             headers: {
@@ -65,7 +66,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskAdded, task }) => {
             url, 
             status, 
             user_id: userId,
-            task_type: taskType
+            task_type: taskType,
+            start_scraping: true
           }, 
           {
             headers: {
