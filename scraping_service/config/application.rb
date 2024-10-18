@@ -30,6 +30,9 @@ module ScrapingService
 
     config.active_job.queue_adapter = :sidekiq
 
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: 'token'
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

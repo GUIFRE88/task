@@ -35,6 +35,8 @@ class ScrapingWorker
     )
 
     scrap_service.send_notification(token,task_id, user_id)
+
+    true
   end
 
   def scrap_service
