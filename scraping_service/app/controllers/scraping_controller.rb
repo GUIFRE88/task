@@ -20,6 +20,12 @@ class ScrapingController < ApplicationController
     render json: { message: "Scraping task completed", task_id: task_id }, status: :ok
   end
 
+  def show
+    @sraping = ScrapedData.where(task_id: params[:task_id])&.first
+
+    render json: @sraping
+  end
+
   private
   
   def scrap_service

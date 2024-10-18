@@ -38,7 +38,8 @@ const TaskList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isTaskModalOpen, onOpen: onTaskModalOpen, onClose: onTaskModalClose } = useDisclosure();
+  const { isOpen: isScrapingModalOpen, onOpen: onScrapingModalOpen, onClose: onScrapingModalClose } = useDisclosure();
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const statusLabels = {
@@ -51,6 +52,8 @@ const TaskList: React.FC = () => {
     '0': 'Scraping',
     '1': 'Others'
   };
+  const [scrapedData, setScrapedData] = useState<any>(null);
+  const [loadingScraping, setLoadingScraping] = useState<boolean>(false);
 
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('user_id');
@@ -98,12 +101,12 @@ const TaskList: React.FC = () => {
   const handleTaskAdded = () => {
     setEditingTask(null);
     fetchTasks(); 
-    onClose(); 
+    onTaskModalClose(); 
   };
 
   const handleEditTask = (task: Task) => {
     setEditingTask(task);
-    onOpen();
+    onTaskModalOpen();
   };
 
   const handleLogOut = () => {
@@ -149,6 +152,30 @@ const TaskList: React.FC = () => {
     }
   };
 
+  const handleScraping = async (taskId: number) => {
+    setScrapedData(null);
+    console.log('AAAAAAAAAAAAAAAAAAAAAAa',taskId )
+    setLoadingScraping(true);
+    try {
+      const response = await axios.get(`http://localhost:3003/scraping/${taskId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setScrapedData(response.data);
+      onScrapingModalOpen();
+    } catch (error) {
+      toast({
+        title: 'Error fetching scraping data.',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    } finally {
+      setLoadingScraping(false);
+    }
+  };
+
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center" bg="gray.100">
       <Box width="80%" p="8" bg="white" borderRadius="md" boxShadow="lg">
@@ -167,6 +194,7 @@ const TaskList: React.FC = () => {
                 <Th>Status</Th>
                 <Th>Type</Th>
                 <Th>Created At</Th>
+                <Th></Th>
                 <Th></Th>
                 <Th></Th>
               </Tr>
@@ -189,6 +217,11 @@ const TaskList: React.FC = () => {
                       Delete
                     </Button>
                   </Td>
+                  <Td>
+                    <Button marginLeft='10px' colorScheme='teal' variant='outline' size='sm' onClick={() => handleScraping(task.id)} isLoading={loadingDelete}>
+                      See scraping
+                    </Button>
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
@@ -205,7 +238,7 @@ const TaskList: React.FC = () => {
             width="200px"
             onClick={() => {
               setEditingTask(null);
-              onOpen();
+              onTaskModalOpen();
             }}
           >
             Include Tasks
@@ -221,7 +254,7 @@ const TaskList: React.FC = () => {
           </Button>
         </Flex>
 
-        <Modal isOpen={isOpen} onClose={onClose} size="lg">
+        <Modal isOpen={isTaskModalOpen} onClose={onTaskModalClose} size="lg">
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>{editingTask ? 'Edit Task' : 'Include Task'}</ModalHeader>
@@ -229,6 +262,44 @@ const TaskList: React.FC = () => {
             <ModalBody>
               <TaskForm onTaskAdded={handleTaskAdded} task={editingTask} />
             </ModalBody>
+          </ModalContent>
+        </Modal>
+        <Modal isOpen={isScrapingModalOpen} onClose={onScrapingModalClose} size="lg">
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Scraping Data</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              {loadingScraping ? (
+                <Flex justifyContent="center">
+                  <Spinner />
+                </Flex>
+              ) : scrapedData ? (
+                <Table variant="simple">
+                  <Thead>
+                    <Tr>
+                      <Th>Brand</Th>
+                      <Th>Model</Th>
+                      <Th>Price</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    <Tr>
+                      <Td>{scrapedData.brand}</Td>
+                      <Td>{scrapedData.model}</Td>
+                      <Td>{scrapedData.price}</Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              ) : (
+                <Text>No scraping data found for this task.</Text>
+              )}
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={onScrapingModalClose} colorScheme="blue">
+                Close
+              </Button>
+            </ModalFooter>
           </ModalContent>
         </Modal>
       </Box>
