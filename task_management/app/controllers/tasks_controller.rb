@@ -17,21 +17,21 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
-
-      token = request.headers['Authorization']&.split(' ')&.last
-      response = HTTParty.post(
-        "http://notification_service:3000/notifications",
-        headers: {
-          'Authorization' => "Bearer #{token}",
-          'Content-Type' => 'application/json'
-        },
-        body: {
-          task_id: @task.id,
-          user_id: @task.user_id,
-          action: "create",
-          details: "Task was created successfully."
-        }.to_json
-      )
+      if @task.task_type == '0'
+        token = request.headers['Authorization']&.split(' ')&.last
+        response = HTTParty.post(
+          "http://scraping_service:3000/start_scraping",
+          headers: {
+            'Authorization' => "Bearer #{token}",
+            'Content-Type' => 'application/json'
+          },
+          body: {
+            task_id: @task.id,
+            user_id: @task.user_id,
+            url: @task.url
+          }.to_json
+        )
+      end
 
       render json: @task, status: :created
     else

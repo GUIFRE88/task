@@ -31,7 +31,7 @@ class ScrapService
     end
   end
 
-  def send_notification(token,task_id)
+  def send_notification(token,task_id, user_id)
     response = HTTParty.post(
       "http://notification_service:3000/notifications",
       headers: {
@@ -40,7 +40,7 @@ class ScrapService
       },
       body: {
         task_id: task_id,
-        user_id: 1,
+        user_id: user_id,
         action: "create",
         details: "Scraping was completed successfully."
       }.to_json

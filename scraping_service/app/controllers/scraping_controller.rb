@@ -3,15 +3,15 @@ class ScrapingController < ApplicationController
     token = request.headers['Authorization']&.split(' ')&.last
     task_id = params[:task_id]
     url = params[:url]
+    user_id = params[:user_id]
 
-    if task_id.blank? || url.blank?
-      render json: { error: "Task ID and URL are required." }, status: :unprocessable_entity
+    if task_id.blank? || url.blank? || user_id.blank?
+      render json: { error: "Task ID, USER_ID and URL are required." }, status: :unprocessable_entity
       return
     end
 
     begin
-      ScrapingWorker.perform_async(url, task_id, token)
-      #scraped_data = scrap_service.scrape(url)
+      ScrapingWorker.perform_async(url, task_id, token, user_id)
     rescue StandardError => e
       render json: { error: "Scraping failed: #{e.message}" }, status: :internal_server_error
       return

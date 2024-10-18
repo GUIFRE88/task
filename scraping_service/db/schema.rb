@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_16_005730) do
+ActiveRecord::Schema.define(version: 2024_10_17_215222) do
 
   create_table "scraped_data", charset: "utf8", force: :cascade do |t|
     t.integer "task_id", null: false
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2024_10_16_005730) do
     t.decimal "price", precision: 10, scale: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
   end
 
 end

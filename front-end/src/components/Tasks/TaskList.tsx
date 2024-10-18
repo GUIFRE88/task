@@ -168,6 +168,7 @@ const TaskList: React.FC = () => {
                 <Th>Type</Th>
                 <Th>Created At</Th>
                 <Th></Th>
+                <Th></Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -182,6 +183,8 @@ const TaskList: React.FC = () => {
                     <Button colorScheme='teal' variant='solid' size='sm' onClick={() => handleEditTask(task)} >
                       Update
                     </Button>
+                  </Td>
+                  <Td>
                     <Button marginLeft='10px' colorScheme='red' variant='solid' size='sm' onClick={() => handleDelete(task.id)} isLoading={loadingDelete}>
                       Delete
                     </Button>
