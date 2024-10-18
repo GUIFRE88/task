@@ -42,6 +42,23 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/:id
   def update
     if @task.update(task_params)
+
+      if @task.task_type == '0'
+        token = request.headers['Authorization']&.split(' ')&.last
+        response = HTTParty.post(
+          "http://scraping_service:3000/start_scraping",
+          headers: {
+            'Authorization' => "Bearer #{token}",
+            'Content-Type' => 'application/json'
+          },
+          body: {
+            task_id: @task.id,
+            user_id: @task.user_id,
+            url: @task.url
+          }.to_json
+        )
+      end
+
       render json: @task
     else
       render json: @task.errors, status: :unprocessable_entity

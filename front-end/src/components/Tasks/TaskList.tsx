@@ -52,7 +52,7 @@ const TaskList: React.FC = () => {
     '0': 'Scraping',
     '1': 'Others'
   };
-  const [scrapedData, setScrapedData] = useState<any>(null);
+  const [scrapedData, setScrapedData] = useState<any[]>([]); 
   const [loadingScraping, setLoadingScraping] = useState<boolean>(false);
 
   const token = localStorage.getItem('token');
@@ -153,8 +153,6 @@ const TaskList: React.FC = () => {
   };
 
   const handleScraping = async (taskId: number) => {
-    setScrapedData(null);
-    console.log('AAAAAAAAAAAAAAAAAAAAAAa',taskId )
     setLoadingScraping(true);
     try {
       const response = await axios.get(`http://localhost:3003/scraping/${taskId}`, {
@@ -264,6 +262,7 @@ const TaskList: React.FC = () => {
             </ModalBody>
           </ModalContent>
         </Modal>
+
         <Modal isOpen={isScrapingModalOpen} onClose={onScrapingModalClose} size="lg">
           <ModalOverlay />
           <ModalContent>
@@ -274,7 +273,7 @@ const TaskList: React.FC = () => {
                 <Flex justifyContent="center">
                   <Spinner />
                 </Flex>
-              ) : scrapedData ? (
+              ) : scrapedData && scrapedData.length > 0 ? ( 
                 <Table variant="simple">
                   <Thead>
                     <Tr>
@@ -284,11 +283,13 @@ const TaskList: React.FC = () => {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    <Tr>
-                      <Td>{scrapedData.brand}</Td>
-                      <Td>{scrapedData.model}</Td>
-                      <Td>{scrapedData.price}</Td>
-                    </Tr>
+                    {scrapedData.map((data, index) => (
+                      <Tr key={index}>
+                        <Td>{data.brand}</Td>
+                        <Td>{data.model}</Td>
+                        <Td>{data.price}</Td>
+                      </Tr>
+                    ))}
                   </Tbody>
                 </Table>
               ) : (
@@ -302,6 +303,7 @@ const TaskList: React.FC = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
+
       </Box>
     </Flex>
   );
