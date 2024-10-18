@@ -13,7 +13,8 @@ Rails.application.configure do
 
   config.hosts << "notification_service"
   config.hosts << "scraping_service"
-  config.hosts << "auth_service" 
+  config.hosts << "auth_service"
+  config.hosts << "task_management"
 
 
   # Show full error reports.

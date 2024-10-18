@@ -42,7 +42,8 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/:id
   def update
     if @task.update(task_params)
-
+      puts 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'
+      puts @task.task_type == '0'
       if @task.task_type == '0'
         token = request.headers['Authorization']&.split(' ')&.last
         response = HTTParty.post(
