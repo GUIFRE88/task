@@ -25,6 +25,7 @@ import {
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import TaskForm from './TaskForm';
+import { createConsumer } from "@rails/actioncable";
 
 interface Task {
   id: number;
@@ -173,6 +174,25 @@ const TaskList: React.FC = () => {
       setLoadingScraping(false);
     }
   };
+
+  const consumer = createConsumer('ws://localhost:3002/cable'); // URL do seu backend com ActionCable
+
+  consumer.subscriptions.create(
+    { channel: "NotificationChannel", user_id: userId },
+    {
+      connected() {
+        console.log("Conectado ao NotificationChannel");
+      },
+      received(data:any) {
+        console.log("Recebido:", data); // Verifique se a mensagem chega
+        // Aqui você pode chamar uma função para exibir o toast
+      },
+      disconnected() {
+        console.log("Desconectado do NotificationChannel");
+      }
+    }
+  );
+  
 
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center" bg="gray.100">

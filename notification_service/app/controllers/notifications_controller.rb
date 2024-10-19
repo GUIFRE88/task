@@ -6,6 +6,12 @@ class NotificationsController < ApplicationController
     @notification = Notification.new(notification_params)
 
     if @notification.save
+      ActionCable.server.broadcast(
+        "notifications_#{@notification.user_id}",
+        task_id: @notification.task_id,
+        message: "Scraping was completed successfully."
+      )
+      
       #@notification.send_notification
       render json: { message: 'Notification sent successfully' }, status: :created
     else
