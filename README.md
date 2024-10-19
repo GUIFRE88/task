@@ -124,16 +124,18 @@ Temos o botão `See scraping`, onde será possível verificar todos os scrapings
 
 ### singup
 
-![alt text](https://github.com/GUIFRE88/task/blob/main/images/SeeScraping.png)
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/auth/auth-signup.png)
 
 ### login
 
-![alt text](https://github.com/GUIFRE88/task/blob/main/images/SeeScraping.png)
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/auth/auth-login.png)
 
 ### validate
 
-![alt text](https://github.com/GUIFRE88/task/blob/main/images/SeeScraping.png)
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/auth/auth-token.png)
 
+
+## Task Management
 
 
 
