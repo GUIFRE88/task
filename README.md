@@ -118,6 +118,29 @@ Temos o botão `See scraping`, onde será possível verificar todos os scrapings
 ![alt text](https://github.com/GUIFRE88/task/blob/main/images/SeeScraping.png)
 
 
+#  💻 Rotas da Api
+
+## Auth Service
+
+### singup
+
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/SeeScraping.png)
+
+### login
+
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/SeeScraping.png)
+
+### validate
+
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/SeeScraping.png)
+
+
+
+
+
+
+
+---
 
 #  💻 Melhorias no projeto
 
