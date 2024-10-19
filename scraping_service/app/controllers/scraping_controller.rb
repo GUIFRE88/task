@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ScrapingController < ApplicationController
   def start_scraping
     token = request.headers['Authorization']&.split(' ')&.last

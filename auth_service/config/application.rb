@@ -26,6 +26,7 @@ module AuthService
 
     config.autoload_paths += %W(#{config.root}/app/repository)
     config.autoload_paths += %W(#{config.root}/app/service)
+    config.autoload_paths += %W(#{config.root}/app/services)
 
     # Configuration for the application, engines, and railties goes here.
     #

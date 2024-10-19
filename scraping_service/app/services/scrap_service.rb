@@ -46,4 +46,17 @@ class ScrapService
       }.to_json
     )
   end
+
+  def update_task(token, task_id, status)
+    HTTParty.put(
+      "http://task_management:3000/tasks/#{task_id}",
+      headers: {
+        'Authorization' => "Bearer #{token}",
+        'Content-Type' => 'application/json'
+      },
+      body: {
+        status: status,
+      }.to_json
+    )
+  end
 end

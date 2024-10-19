@@ -17,22 +17,7 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
-      if @task.task_type == '0' && params[:start_scraping].present?
-        token = request.headers['Authorization']&.split(' ')&.last
-        response = HTTParty.post(
-          "http://scraping_service:3000/start_scraping",
-          headers: {
-            'Authorization' => "Bearer #{token}",
-            'Content-Type' => 'application/json'
-          },
-          body: {
-            task_id: @task.id,
-            user_id: @task.user_id,
-            url: @task.url
-          }.to_json
-        )
-      end
-
+      start_scraping_if_needed
       render json: @task, status: :created
     else
       render json: @task.errors, status: :unprocessable_entity
@@ -42,24 +27,7 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/:id
   def update
     if @task.update(task_params)
-      puts 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'
-      puts params[:start_scraping].present?
-      if @task.task_type == '0' && params[:start_scraping].present?
-        token = request.headers['Authorization']&.split(' ')&.last
-        response = HTTParty.post(
-          "http://scraping_service:3000/start_scraping",
-          headers: {
-            'Authorization' => "Bearer #{token}",
-            'Content-Type' => 'application/json'
-          },
-          body: {
-            task_id: @task.id,
-            user_id: @task.user_id,
-            url: @task.url
-          }.to_json
-        )
-      end
-
+      start_scraping_if_needed
       render json: @task
     else
       render json: @task.errors, status: :unprocessable_entity
@@ -74,13 +42,22 @@ class TasksController < ApplicationController
 
   private
 
-  # Set the task for actions that require it
   def set_task
     @task = Task.find(params[:id])
   end
 
-  # Strong parameters
   def task_params
     params.require(:task).permit(:url, :status, :user_id, :task_type)
+  end
+
+  def start_scraping_if_needed
+    return unless params[:start_scraping].present?
+
+    token = request.headers['Authorization']&.split(' ')&.last
+    task_service.start_scraping(@task, token)
+  end
+
+  def task_service
+    @task_service ||= TaskService.new
   end
 end
