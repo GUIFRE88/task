@@ -23,8 +23,14 @@ class ScrapService
       html = page.content
       parsed_page = Nokogiri::HTML(html)
 
-      brand = parsed_page.at_css('#VehicleBasicInformationTitle')&.text&.strip || "Marca não encontrada"
-      model = parsed_page.at_css('#VehicleBasicInformationDescription')&.text&.strip || "Modelo não encontrado"
+      brand = parsed_page.at_css('#VehicleBasicInformationTitle')&.text&.strip
+      brand = brand.split.first if brand.present?
+      brand ||= "Brand not found"
+
+      model = parsed_page.at_css('#VehicleBasicInformationTitle')&.text&.strip
+      model = model.split.second[0..-4] if model.present?
+      model ||= "Model not found"
+
       price = parsed_page.at_css('#vehicleSendProposalPrice')&.text&.strip || "0.00"
 
       { brand: brand, model: model, price: price }
