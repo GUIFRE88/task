@@ -25,6 +25,8 @@ import {
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import TaskForm from './TaskForm';
+import { createConsumer } from "@rails/actioncable";
+import NotificationComponent from '../Notification/NotificationComponent';
 
 interface Task {
   id: number;
@@ -175,137 +177,141 @@ const TaskList: React.FC = () => {
   };
 
   return (
-    <Flex height="100vh" alignItems="center" justifyContent="center" bg="gray.100">
-      <Box width="80%" p="8" bg="white" borderRadius="md" boxShadow="lg">
-        <Heading mb="6" textAlign="center">Task List</Heading>
+    <>
+      <NotificationComponent userId={userId} />
 
-        {loading ? (
-          <Flex justifyContent="center">
-            <Spinner size="lg" />
-          </Flex>
-        ) : tasks.length > 0 ? (
-          <Table variant="striped" colorScheme="gray">
-            <Thead>
-              <Tr>
-                <Th>ID</Th>
-                <Th>URL</Th>
-                <Th>Status</Th>
-                <Th>Type</Th>
-                <Th>Created At</Th>
-                <Th></Th>
-                <Th></Th>
-                <Th></Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {tasks.map((task) => (
-                <Tr key={task.id}>
-                  <Td>{task.id}</Td>
-                  <Td>{task.url}</Td>
-                  <Td>{statusLabels[task.status]}</Td>
-                  <Td>{typeLabels[task.task_type]}</Td>
-                  <Td>{format(new Date(task.created_at), 'dd/MM/yyyy HH:mm')}</Td>
-                  <Td>
-                    <Button colorScheme='teal' variant='solid' size='sm' onClick={() => handleEditTask(task)} >
-                      Update
-                    </Button>
-                  </Td>
-                  <Td>
-                    <Button marginLeft='10px' colorScheme='red' variant='solid' size='sm' onClick={() => handleDelete(task.id)} isLoading={loadingDelete}>
-                      Delete
-                    </Button>
-                  </Td>
-                  <Td>
-                    <Button marginLeft='10px' colorScheme='teal' variant='outline' size='sm' onClick={() => handleScraping(task.id)} isLoading={loadingDelete}>
-                      See scraping
-                    </Button>
-                  </Td>
+      <Flex height="100vh" alignItems="center" justifyContent="center" bg="gray.100">
+        <Box width="80%" p="8" bg="white" borderRadius="md" boxShadow="lg">
+          <Heading mb="6" textAlign="center">Task List</Heading>
+
+          {loading ? (
+            <Flex justifyContent="center">
+              <Spinner size="lg" />
+            </Flex>
+          ) : tasks.length > 0 ? (
+            <Table variant="striped" colorScheme="gray">
+              <Thead>
+                <Tr>
+                  <Th>ID</Th>
+                  <Th>URL</Th>
+                  <Th>Status</Th>
+                  <Th>Type</Th>
+                  <Th>Created At</Th>
+                  <Th></Th>
+                  <Th></Th>
+                  <Th></Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        ) : (
-          <Text textAlign="center" color="gray.500">
-            No tasks available.
-          </Text>
-        )}
-        <Flex justifyContent="space-between" mt="6">
-          <Button
-            mt="6"
-            colorScheme="blue"
-            width="200px"
-            onClick={() => {
-              setEditingTask(null);
-              onTaskModalOpen();
-            }}
-          >
-            Include Tasks
-          </Button>
-          <Button
-            mt="6"
-            colorScheme="red"
-            variant={"outline"}
-            width="200px"
-            onClick={handleLogOut}
-          >
-            Log out
-          </Button>
-        </Flex>
+              </Thead>
+              <Tbody>
+                {tasks.map((task) => (
+                  <Tr key={task.id}>
+                    <Td>{task.id}</Td>
+                    <Td>{task.url}</Td>
+                    <Td>{statusLabels[task.status]}</Td>
+                    <Td>{typeLabels[task.task_type]}</Td>
+                    <Td>{format(new Date(task.created_at), 'dd/MM/yyyy HH:mm')}</Td>
+                    <Td>
+                      <Button colorScheme='teal' variant='solid' size='sm' onClick={() => handleEditTask(task)} >
+                        Update
+                      </Button>
+                    </Td>
+                    <Td>
+                      <Button marginLeft='10px' colorScheme='red' variant='solid' size='sm' onClick={() => handleDelete(task.id)} isLoading={loadingDelete}>
+                        Delete
+                      </Button>
+                    </Td>
+                    <Td>
+                      <Button marginLeft='10px' colorScheme='teal' variant='outline' size='sm' onClick={() => handleScraping(task.id)} isLoading={loadingDelete}>
+                        See scraping
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          ) : (
+            <Text textAlign="center" color="gray.500">
+              No tasks available.
+            </Text>
+          )}
+          <Flex justifyContent="space-between" mt="6">
+            <Button
+              mt="6"
+              colorScheme="blue"
+              width="200px"
+              onClick={() => {
+                setEditingTask(null);
+                onTaskModalOpen();
+              }}
+            >
+              Include Tasks
+            </Button>
+            <Button
+              mt="6"
+              colorScheme="red"
+              variant={"outline"}
+              width="200px"
+              onClick={handleLogOut}
+            >
+              Log out
+            </Button>
+          </Flex>
 
-        <Modal isOpen={isTaskModalOpen} onClose={onTaskModalClose} size="lg">
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>{editingTask ? 'Edit Task' : 'Include Task'}</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <TaskForm onTaskAdded={handleTaskAdded} task={editingTask} />
-            </ModalBody>
-          </ModalContent>
-        </Modal>
+          <Modal isOpen={isTaskModalOpen} onClose={onTaskModalClose} size="lg">
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>{editingTask ? 'Edit Task' : 'Include Task'}</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <TaskForm onTaskAdded={handleTaskAdded} task={editingTask} />
+              </ModalBody>
+            </ModalContent>
+          </Modal>
 
-        <Modal isOpen={isScrapingModalOpen} onClose={onScrapingModalClose} size="lg">
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Scraping Data</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              {loadingScraping ? (
-                <Flex justifyContent="center">
-                  <Spinner />
-                </Flex>
-              ) : scrapedData && scrapedData.length > 0 ? ( 
-                <Table variant="simple">
-                  <Thead>
-                    <Tr>
-                      <Th>Brand</Th>
-                      <Th>Model</Th>
-                      <Th>Price</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {scrapedData.map((data, index) => (
-                      <Tr key={index}>
-                        <Td>{data.brand}</Td>
-                        <Td>{data.model}</Td>
-                        <Td>{data.price}</Td>
+          <Modal isOpen={isScrapingModalOpen} onClose={onScrapingModalClose} size="lg">
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Scraping Data</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                {loadingScraping ? (
+                  <Flex justifyContent="center">
+                    <Spinner />
+                  </Flex>
+                ) : scrapedData && scrapedData.length > 0 ? ( 
+                  <Table variant="simple">
+                    <Thead>
+                      <Tr>
+                        <Th>Brand</Th>
+                        <Th>Model</Th>
+                        <Th>Price</Th>
                       </Tr>
-                    ))}
-                  </Tbody>
-                </Table>
-              ) : (
-                <Text>No scraping data found for this task.</Text>
-              )}
-            </ModalBody>
-            <ModalFooter>
-              <Button onClick={onScrapingModalClose} colorScheme="blue">
-                Close
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+                    </Thead>
+                    <Tbody>
+                      {scrapedData.map((data, index) => (
+                        <Tr key={index}>
+                          <Td>{data.brand}</Td>
+                          <Td>{data.model}</Td>
+                          <Td>{data.price}</Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                ) : (
+                  <Text>No scraping data found for this task.</Text>
+                )}
+              </ModalBody>
+              <ModalFooter>
+                <Button onClick={onScrapingModalClose} colorScheme="blue">
+                  Close
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
 
-      </Box>
-    </Flex>
+        </Box>
+      </Flex>
+    </>
   );
 };
 

@@ -33,8 +33,10 @@ services:
       - AUTH_SERVICE_URL=http://auth_service:3000
       - NOTIFICATION_SERVICE_URL=http://notification_service:3000
       - SCRAPING_SERVICE_URL=http://scraping_service:3000
+      - REDIS_URL=redis://redis:6379/0
     depends_on:
       - db
+      - redis
 
   scraping_service:
     build: ./scraping_service
