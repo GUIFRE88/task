@@ -139,45 +139,45 @@ Temos o botão `See scraping`, onde será possível verificar todos os scrapings
 
 ### create
 
-![alt text]()
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/task/task-create.png)
 
 ### index
 
-![alt text]()
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/task/task-index.png)
 
 ### show
 
-![alt text]()
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/task/task-show.png)
 
 ### update
 
-![alt text]()
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/task/task-update.png)
 
 ### delete
 
-![alt text]()
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/task/task-delete.png)
 
 
 ## Scraping Service
 
 ### start_scraping
 
-![alt text]()
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/scraping/scraping-start.png)
 
 ### index
 
-![alt text]()
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/scraping/scraping-index.png)
 
 
 ## Notification Service
 
 ### create
 
-![alt text]()
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/notification/notification-create.png)
 
 ### show
 
-![alt text]()
+![alt text](https://github.com/GUIFRE88/task/blob/main/images/notification/notification-show.png)
 
 
 
