@@ -137,8 +137,47 @@ Temos o botão `See scraping`, onde será possível verificar todos os scrapings
 
 ## Task Management
 
+### create
+
+![alt text]()
+
+### index
+
+![alt text]()
+
+### show
+
+![alt text]()
+
+### update
+
+![alt text]()
+
+### delete
+
+![alt text]()
 
 
+## Scraping Service
+
+### start_scraping
+
+![alt text]()
+
+### index
+
+![alt text]()
+
+
+## Notification Service
+
+### create
+
+![alt text]()
+
+### show
+
+![alt text]()
 
 
 
