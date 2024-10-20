@@ -46,7 +46,7 @@ O scraping dos valores é feito através da gem <b>Nokogiri</b>, porém como o s
 
 ### Notificação no Front-end do termino do Scraping:
 
-Quando for finalizado o Scraping do modelo e marca do veículo no site WebMotors, será enviado uma notificação para o front-end feito em React através de um <b>WebSocket</b>.
+Quando for finalizado o Scraping do modelo e marca do veículo no site WebMotors, será enviado uma notificação para o front-end feito em React através de um <b>WebSocket</b>, essa conexão de WebSocket é feita através do `user_id`, portanto só mostrará a notificação para o user que fez a criação da tarefa.
 
 ### Componentes do front-end:
 
@@ -190,6 +190,8 @@ Todo projeto oferece desafios e melhorias, creio que as melhorias seriam:
  * Gostaria de ter implementado algum serviço para quebra do ReCaptcha, pois o site do WebMotors estava bloquando quando eram feitas muitas requisições, uma forma de burlar isso foi através da utilização do Sidekiq, porém temos alguns serviços que podem fazer o preenchimento do ReCaptacha, mas os melhores que eu encontrei eram pagos.
  * A parte do front-end poderia apresentar uma paginação, talvez utilizando a gem <b>will_paginate</b>, decidi não fazer nesse momento, porém gostaria de implementar isso no sistema futuramente, compreendo a importancia disso pensando em uma grande quantidade de registros.
 
+# 💻 Rspec
+Implementado testes com Rspec em cada projeto individualmente, por favor verifique a pasta /spec de cada projeto.
 
 # 💻 Contribuição
 Sinta-se à vontade para contribuir com melhorias ou correções! Para isso, faça um fork do repositório, crie uma branch com suas alterações e envie um pull request.
