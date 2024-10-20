@@ -14,6 +14,8 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [Chakra-ui](https://v2.chakra-ui.com/)
 - [MySql](https://www.mysql.com/)
 - [Docker](https://www.docker.com/)
+- [Sidekiq](https://sidekiq.org/)
+- [WebSocket](https://github.com/faye/faye-websocket-ruby)
 
 <div style="display: inline_block"><br>
   <img align="center" alt="Gui-Ruby" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/ruby/ruby-original.svg">
