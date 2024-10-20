@@ -54,7 +54,9 @@ Acabei optando por utilizar a biblioteca de componentes <b>Chakra-ui</b>, pois e
 
 Obs. O servidor do React deverá rodar na porta localhost:3004, pois as demais portas como 3000, 3001, 3002 e 3003 são ocupadas pelo microsserviços. 
 
+### Bloqueio de rotas sem login:
 
+Dentro do application_controller de cada microserviço foi implementado uma verificação, através do Barear Token, caso o mesmo não seja enviado pela requisição e seja um token válido, será retornado uma mensagem de sem autenticação e retornará status 401. 
 
 #  💻 Tela login
 <br>
@@ -183,6 +185,11 @@ Temos o botão `See scraping`, onde será possível verificar todos os scrapings
 
 ---
 
+# 💻 Rspec
+Implementado testes com Rspec em cada projeto individualmente, por favor verifique a pasta /spec de cada projeto.
+
+
+
 #  💻 Melhorias no projeto
 
 Todo projeto oferece desafios e melhorias, creio que as melhorias seriam:
@@ -190,8 +197,6 @@ Todo projeto oferece desafios e melhorias, creio que as melhorias seriam:
  * Gostaria de ter implementado algum serviço para quebra do ReCaptcha, pois o site do WebMotors estava bloquando quando eram feitas muitas requisições, uma forma de burlar isso foi através da utilização do Sidekiq, porém temos alguns serviços que podem fazer o preenchimento do ReCaptacha, mas os melhores que eu encontrei eram pagos.
  * A parte do front-end poderia apresentar uma paginação, talvez utilizando a gem <b>will_paginate</b>, decidi não fazer nesse momento, porém gostaria de implementar isso no sistema futuramente, compreendo a importancia disso pensando em uma grande quantidade de registros.
 
-# 💻 Rspec
-Implementado testes com Rspec em cada projeto individualmente, por favor verifique a pasta /spec de cada projeto.
 
 # 💻 Contribuição
 Sinta-se à vontade para contribuir com melhorias ou correções! Para isso, faça um fork do repositório, crie uma branch com suas alterações e envie um pull request.
