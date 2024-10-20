@@ -58,6 +58,11 @@ Obs. O servidor do React deverá rodar na porta localhost:3004, pois as demais p
 
 Dentro do application_controller de cada microserviço foi implementado uma verificação, através do Barear Token, caso o mesmo não seja enviado pela requisição e seja um token válido, será retornado uma mensagem de sem autenticação e retornará status 401. 
 
+### Exemplos da url de teste:
+
+Para o teste foi utilizado a url do site Webmotors: https://www.webmotors.com.br/comprar/peugeot/208/16-16v-flex-active-at6/4-portas/2022/53850747?pos=a53850747g:&np=1
+
+
 #  💻 Tela login
 <br>
 Na tela de login, possuimos apenas o campo de Email e Password, decidi fazer uma tela simples, porém objetiva. 
